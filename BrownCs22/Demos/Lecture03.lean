@@ -13,12 +13,12 @@ automatically that these proofs are correct.
 Some basic Lean syntax:
 
 * Block comments, like this one, are written as /- ... -/.
-* Line comments begin with -- 
+* Line comments begin with --
 * If a file imports other files, this appears at the very top of the file.
   You shouldn't change these imports!
 
 
-Remember from Lecture 2, 
+Remember from Lecture 2,
 the `#check` command asks Lean to tell us "what kind of thing" something is.
 (This will be very useful for us!)
 
@@ -44,12 +44,12 @@ In Lean, we write:
 
 -/
 
-variable (p q r : Prop)
+variable (p q r s : Prop)
 
-#check p 
-#check p ∧ q 
-#check p ∧ q → r 
-#check p ∨ q ∨ p ∧ r ∧ ¬ (p ∧ q ∧ r) 
+#check p
+#check p ∧ q
+#check p ∧ q → r
+#check p ∨ q ∨ p ∧ r ∧ ¬ (p ∧ q ∧ r)
 
 /-
 
@@ -59,16 +59,16 @@ A few things to note here.
   you can see how this formula is parenthesized!
 
 * Those unicode symbols are input using \ . To write the third line I typed
-  `p \and q \to r`. But there are lots of variants. 
+  `p \and q \to r`. But there are lots of variants.
   They usually match the LaTeX command.
   You can hover over a symbol to see how it was typed. Here's a useful list:
 
   * `∧`: and, wedge
-  * `∨`: or, vee 
+  * `∨`: or, vee
   * `¬`: not, neg
-  * `→`: to, imp, rightarrow 
+  * `→`: to, imp, rightarrow
   * `↔`: iff
-  * `ℕ`: N, nat 
+  * `ℕ`: N, nat
   * `ℤ`: Z, int
   * `∀`: all, forall
   * `∃`: ex, exist
@@ -82,3 +82,10 @@ If you want more atoms than `p`, `q`, and `r`, you can write a new line
 
 
 #truth_table p ∧ q ∨ r
+
+#truth_table (¬p ∧ q) ∨ (p ∧ ¬q)
+#truth_table ¬(p ∧ q) ∧ ¬(¬p ∧ ¬q)
+
+variable (A B C : Prop)
+#truth_table A ∧ B ∧ ¬C ∧ ¬(A ∨ C)
+#truth_table ¬(¬A∧(B∧¬(B∧C))) ∨ ((B∧¬(B∧C))∨(B∧C))

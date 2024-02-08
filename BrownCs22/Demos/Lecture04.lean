@@ -70,12 +70,24 @@ example : p → p ∨ q := by
 -- try it yourself:
 
 example : q → p ∨ q := by
-  sorry
+  assume hq
+  right
+  assumption
+  done
 
 example : (p ∧ q) → (p ↔ q) := by
-  sorry
-
-
+  assume hqp
+  eliminate hqp with hp hq
+  split_goal
+  {
+  assume hp1
+  assumption
+  } -- when we have multiple goals, we sometimes put each subproof in {...}
+  {
+  assume hp2
+  assumption
+  }  -- but this is mainly for style!
+  done
 
 /-
 *Elimination rules* tell us how we can use hypotheses. To start:
@@ -216,7 +228,6 @@ How to introduce a negation? This uses a technique called
 "proof by contradiction", which we'll motivate in class soon.
 
 -/
-
 
 
 
