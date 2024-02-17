@@ -73,12 +73,10 @@ Remember `ℕ = {0, 1, 2, ...}`, the natural numbers.
 
 @[autograded 3]
 theorem problem_1 : ∀ n : ℕ, ∃ x : ℕ, n < x := by
-  sorry
+  fix n
+  existsi n+1
+  linarith
   done
-
-
-
-
 
 /-
 
@@ -114,14 +112,15 @@ If we want to use a "divides" hypotheses, we can `eliminate` it directly,
 again just like for an existential.
 But it should never hurt to use `dsimp` if you want to.
 
-
 First, practice an introduction:
 
 -/
 
 @[autograded 1]
 theorem problem_2 : 220 ∣ 880 := by
-  sorry
+  dsimp dvd
+  existsi 4
+  numbers
   done
 
 /-
@@ -133,9 +132,14 @@ is also a divisor of 220.
 
 @[autograded 3]
 theorem problem_3 : ∀ x : ℕ, x ∣ 22 → x ∣ 220 := by
-  sorry
+  fix x
+  assume h_x22
+  dsimp dvd
+  dsimp dvd at h_x22
+  eliminate h_x22 with y h_xy22
+  existsi y*10
+  linarith
   done
-
 
 
 
@@ -169,10 +173,15 @@ No need to start with `assume`.
 
 @[autograded 3]
 theorem problem_4 (a b : ℤ) (h : ∀ x : ℤ, 2*a ≤ x ∨ x ≤ 2*b) : a ≤ b := by
-  sorry
+  have h_1 : 2 * a ≤ (a+b) ∨ (a+b) ≤ 2 * b := h (a+b)
+  eliminate h_1 with ha1 hb1
+  {
+    linarith
+  }
+  {
+    linarith
+  }
   done
-
-
 /-
 
 ## Bonus challenge
@@ -198,6 +207,7 @@ An example:
 
 
 example (p q : Prop) (hp : p) (hq : q) : p := by
+
   have hpq : p ∧ q -- after this line, the goal becomes to show `p ∧ q`
   { split_goal     -- use brackets to focus on the first goal
     assumption
@@ -221,10 +231,6 @@ can you state and use?
 
 theorem bonus_challenge (p : Prop) : ¬ (p ↔ ¬ p) := by
   sorry
-
-
-
-
 
 
 
